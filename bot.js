@@ -3,9 +3,6 @@ const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const fs = require('node.fs');
 const path = require('node:path');
 
-// Database functions
-const { saveQuote, deleteQuote, deleteAllQuotes, createQuotesTable } = require('./database.js');
-
 // Config
 // Token
 require('dotenv').config();
@@ -14,7 +11,6 @@ const token = process.env.DISCORD_TOKEN;
 // Commands
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-const commands  = []
 
 // Gets all command files from command folder
 // Returns error if command file is incomplete
