@@ -1,0 +1,19 @@
+{
+  "name": "quote-bot",
+  "version": "1.0.0",
+  "description": "A discord bot for handling quotes on the RHUL Anime & Manga Society Discord",
+  "main": "bot.js",
+  "scripts": {
+    "test": "/help"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/katsofroniou/quote-bot.git"
+  },
+  "author": "Katerina Sofroniou",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/katsofroniou/quote-bot/issues"
+  },
+  "homepage": "https://github.com/katsofroniou/quote-bot#readme"
+}
