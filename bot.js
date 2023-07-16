@@ -9,7 +9,8 @@ require('dotenv').config();
 const token = process.env.DISCORD_TOKEN;
 
 // Database
-const { connectToDatabase } = require('./database.js')
+const { connectToDatabase } = require('./database.js');
+const db = null;
 
 // New Client instance 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -37,7 +38,7 @@ for (const folder of commandFolders) {
 
 // Runs only once when client is ready
 client.once(Events.ClientReady, c => {
-	connectToDatabase()
+	db = connectToDatabase()
 	console.log(`${c.user.tag} is now online!`);
 });
 
