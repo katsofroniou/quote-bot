@@ -10,12 +10,30 @@ function createTable(db) {
 
 function addQuote(db, author, quote) {
 	db.serialize(() =>
-		db.run(`INSERT INTO quotes (author, content)
-				VALUES (?, ?);`,
-		[author, quote],
-		(err) => {
-			console.error(err.message);
-		}),
+		db.run('INSERT INTO quotes (author, content) VALUES (?, ?);',
+			[author, quote],
+			(err) => {
+				console.error(err.message);
+			}),
+	);
+}
+
+function deleteQuote(db, index) {
+	db.serialize(() =>
+		db.run('DELETE FROM quotes WHERE id=?;',
+			[index],
+			(err) => {
+				console.error(err.message);
+			}),
+	);
+}
+
+function deleteAllQuotes(db) {
+	db.serialize(() =>
+		db.run('DELETE FROM quotes;',
+			(err) => {
+				console.error(err.message);
+			}),
 	);
 }
 
