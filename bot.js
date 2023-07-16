@@ -9,10 +9,8 @@ require('dotenv').config();
 const token = process.env.DISCORD_TOKEN;
 
 // Database
-const { connectToDatabase } = require('./database.js');
-let db = null;
 
-// New Client instance 
+// New Client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 // Commands
@@ -30,7 +28,8 @@ for (const folder of commandFolders) {
 		const command = require(filePath);
 		if ('data' in command && 'execute' in command) {
 			client.commands.set(command.data.name, command);
-		} else {
+		}
+		else {
 			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 		}
 	}
@@ -38,7 +37,6 @@ for (const folder of commandFolders) {
 
 // Runs only once when client is ready
 client.once(Events.ClientReady, c => {
-	db = connectToDatabase()
 	console.log(`${c.user.tag} is now online!`);
 });
 
@@ -62,11 +60,12 @@ client.on(Events.InteractionCreate, async interaction => {
 		console.error(error);
 		if (interaction.replied || interaction.deferred) {
 			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
-		} else {
+		}
+		else {
 			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 		}
 	}
-})
+});
 
 // Log in w/ client token
-client.login(token)
+client.login(token);
