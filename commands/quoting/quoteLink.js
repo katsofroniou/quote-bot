@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { saveQuote } = require("../../database.js")
+const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -9,7 +8,7 @@ module.exports = {
 			option
 				.setName('link')
 				.setDescription('Link to the message you want to quote')
-				.setRequired(true)
+				.setRequired(true),
 		),
 
 	async execute(interaction) {
@@ -29,12 +28,16 @@ module.exports = {
 			// Grabs message and username of who sent it
 			const content = message.content;
 			const author = message.author;
-			const username = `${author.username}#${author.discriminator}`
+			const username = `${author.username}#${author.discriminator}`;
+
+			interaction.reply(`message:${content}   author:${username}`);
 
 			// Debug
 			console.log(`message:${content}   author:${username}`);
-		} catch (error) {
-			console.error('Error retrieving the message:', error);
 		}
-	}
-}
+		catch (error) {
+			console.error('Error retrieving the message:', error);
+			interaction.reply('There was an error');
+		}
+	},
+};
