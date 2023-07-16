@@ -10,7 +10,7 @@ const token = process.env.DISCORD_TOKEN;
 
 // Database
 const { connectToDatabase } = require('./database.js');
-const db = null;
+let db = null;
 
 // New Client instance 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
