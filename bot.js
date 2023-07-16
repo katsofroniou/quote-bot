@@ -1,12 +1,15 @@
 // Discord.js
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
-const fs = require('node.fs');
-const path = require('node:path');
+const fs = require('fs');
+const path = require('path');
 
 // Config
 // Token
 require('dotenv').config();
 const token = process.env.DISCORD_TOKEN;
+
+// New Client instance 
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 // Commands
 client.commands = new Collection();
@@ -28,9 +31,6 @@ for (const folder of commandFolders) {
 		}
 	}
 }
-
-// Create new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 // Runs only once when client is ready
 client.once(Events.ClientReady, c => {
