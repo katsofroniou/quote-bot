@@ -1,17 +1,18 @@
-const sqlite3 = require('sqlite3');
+const sqlite3 = require('sqlite3').verbose();
 
-async function connectToDatabase() {
-	try {
-		const db = new sqlite3.Database('quotes.db');
+function connectDatabase() {
+	const db = new sqlite3.Database('../quotes.db', sqlite3.OPEN_READWRITE, (err) => {
+		if (err) {
+			console.error(err.message);
+		}
+		else {
+			console.error.log('Connected to database!');
+		}
+	});
 
-		console.log('Connected to the database');
-		return db;
-	}
-	catch (error) {
-		console.error('Error connecting to the database:', error);
-	}
+	return db;
 }
 
 module.exports = {
-	connectToDatabase,
+	connectDatabase,
 };
