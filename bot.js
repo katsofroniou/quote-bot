@@ -12,7 +12,7 @@ const token = process.env.DISCORD_TOKEN;
 const sqlite = require('sqlite3').verbose();
 
 const db = new sqlite.Database('../quotes.db', sqlite.OPEN_READWRITE | sqlite.OPEN_CREATE);
-db.run('CREATE TABLE IF NOT EXISTS quotes (id PRIMARY KEY INTEGER AUTOINCREMENT, author TEXT NOT NULL, content TEXT NOT NULL);', (error) => {
+db.run('CREATE TABLE IF NOT EXISTS quotes (id INTEGER PRIMARY KEY AUTOINCREMENT, author TEXT NOT NULL, content TEXT NOT NULL);', (error) => {
 	if (error) {
 		console.error('Error creating table:', error.message);
 	}
