@@ -12,7 +12,14 @@ const token = process.env.DISCORD_TOKEN;
 const sqlite = require('sqlite3').verbose();
 
 const db = new sqlite.Database('../quotes.db', sqlite.OPEN_READWRITE | sqlite.OPEN_CREATE);
-db.run('CREATE TABLE IF NOT EXISTS quotes (id PRIMARY KEY INTEGER AUTOINCREMENTS, author TEXT NOT NULL, content TEXT NOT NULL);');
+db.run('CREATE TABLE IF NOT EXISTS quotes (id PRIMARY KEY INTEGER AUTOINCREMENT, author TEXT NOT NULL, content TEXT NOT NULL);', (error) => {
+	if (error) {
+		console.error('Error creating table:', error.message);
+	}
+	else {
+		console.log('Table created successfully!');
+	}
+});
 
 // New Client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
