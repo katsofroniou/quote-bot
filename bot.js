@@ -9,9 +9,6 @@ require('dotenv').config();
 const token = process.env.DISCORD_TOKEN;
 
 // Database
-const { connectDatabase } = require('./database/connectDatabase.js');
-const { closeDatabase } = require('./database/disconnectDatabase.js');
-let db = null;
 
 // New Client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -40,13 +37,10 @@ for (const folder of commandFolders) {
 
 // Runs only once when client is ready
 client.once(Events.ClientReady, c => {
-	db = connectDatabase();
 	console.log(`${c.user.tag} is now online!`);
 });
 
 process.on('beforeExit', () => {
-	console.log('Closing database...');
-	closeDatabase();
 	console.log('Shutting down...');
 });
 
@@ -79,7 +73,3 @@ client.on(Events.InteractionCreate, async interaction => {
 
 // Log in w/ client token
 client.login(token);
-
-module.exports = {
-	db,
-};
