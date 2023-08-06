@@ -1,4 +1,5 @@
 const { MongoClient } = require('mongodb');
+require('dotenv').config();
 
 const username = process.env.MONGO_DB_USERNAME;
 const password = process.env.MONGO_DB_PASSWORD;
@@ -23,5 +24,6 @@ async function connectDatabase() {
 
 module.exports = {
 	connectDatabase,
-	dbClient
-}
+	dbClient,
+	db_name,
+};
