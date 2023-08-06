@@ -1,4 +1,4 @@
-const { dbClient } = require('../bot.js');
+const { dbClient } = require('../database/dbFunc');
 
 async function addQuote(author, content) {
 	try {
