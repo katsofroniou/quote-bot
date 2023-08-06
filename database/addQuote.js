@@ -1,8 +1,8 @@
-const { dbClient } = require('../database/dbFunc');
+const { dbClient, db_name } = require('../database/dbFunc');
 
 async function addQuote(author, content) {
 	try {
-		const database = dbClient.db('dbams');
+		const database = dbClient.db(db_name);
 		const quotesColl = database.collection('quotes');
 
 		const quote = {
@@ -10,8 +10,7 @@ async function addQuote(author, content) {
 			content: content,
 		};
 
-		// eslint-disable-next-line no-unused-vars
-		const result = await quotesColl.insertOne(quote);
+		await quotesColl.insertOne(quote);
 	}
 	catch (error) {
 		console.log('Error adding quote: ', error);
