@@ -1,10 +1,21 @@
-const { db } = require('../bot.js');
+const { dbClient } = require('../bot.js');
 
-function addQuote(author, content) {
-	const quoteStatement = db.prepare('INSERT INTO quotes (author, content) VALUES (?, ?);');
+async function addQuote(author, content) {
+	try {
+		const database = dbClient.db('dbams');
+		const quotesColl = database.collection('quotes');
 
-	quoteStatement.run(author, content);
-	quoteStatement.finalize();
+		const quote = {
+			author: author,
+			content: content,
+		};
+
+		// eslint-disable-next-line no-unused-vars
+		const result = await quotesColl.insertOne(quote);
+	}
+	catch (error) {
+		console.log('Error adding quote: ', error);
+	}
 }
 
 module.exports = {

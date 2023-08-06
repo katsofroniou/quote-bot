@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const { addQuote } = require('../../database/addQuote.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -30,10 +31,14 @@ module.exports = {
 			const author = message.author;
 			const username = `${author.username}#${author.discriminator}`;
 
-			interaction.reply(`message:${content}   author:${username}`);
-
-			// Debug
-			console.log(`message:${content}   author:${username}`);
+			try {
+				await addQuote(username, content);
+				interaction.reply(`Quote by ${username} added successfully!`);
+			}
+			catch (error) {
+				interaction.reply('Error adding to database...');
+				console.error(error.message);
+			}
 		}
 		catch (error) {
 			console.error('Error retrieving the message:', error);
