@@ -1,13 +1,20 @@
-const { dbClient, db_name } = require('../database/dbFunc');
+const { dbClient} = require('../database/dbFunc');
 
-async function addQuote(author, content) {
+async function addQuote(author, content, guildID, channelId, creator) {
 	try {
-		const database = dbClient.db(db_name);
+		// Database name
+		const database = dbClient.db(guildID);
+
+		// Table name
 		const quotesColl = database.collection('quotes');
+		const count = await quotesColl.countDocuments();
 
 		const quote = {
+			_id: count,
 			author: author,
 			content: content,
+			channel_id: channelId,
+			creator: creator,
 		};
 
 		await quotesColl.insertOne(quote);
