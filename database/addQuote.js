@@ -1,4 +1,4 @@
-const { dbClient} = require('../database/dbFunc');
+const { dbClient } = require('../database/dbFunc');
 
 async function addQuote(author, content, guildID, channelId, creator) {
 	try {
