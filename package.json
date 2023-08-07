@@ -4,6 +4,8 @@
   "description": "A discord bot for handling quotes on the RHUL Anime & Manga Society Discord",
   "main": "bot.js",
   "scripts": {
+    "start": "node bot.js",
+    "pushCmd": "node deploy-commands.js",
     "test": "/help"
   },
   "repository": {
