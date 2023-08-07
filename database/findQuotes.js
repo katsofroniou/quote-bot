@@ -1,9 +1,17 @@
-const { db } = require('../bot.js');
+const { dbClient } = require('./dbFunc');
 
 // By author, id, all
-function findQuoteByAuthor(author) {
-	const findAuthor = db.prepare('SELECT * FROM quotes WHERE author = ?;');
-	return findAuthor.all(author);
+async function findQuoteByAuthor(guildId, creator) {
+	try {
+		const database = dbClient.db(guildId);
+		const quotesColl = database.collection('quotes');
+
+		return await quotesColl.findOne({ creator: creator });
+	}
+	catch (error) {
+		console.log('Error finding quote: ', error);
+		return null;
+	}
 }
 
 function findQuoteById(index) {
