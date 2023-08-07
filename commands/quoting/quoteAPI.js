@@ -1,28 +1,53 @@
 const { ContextMenuCommandBuilder, ApplicationCommandType } = require('discord.js');
+const { addQuote } = require('../../database/addQuote');
 
 module.exports = {
 	data: new ContextMenuCommandBuilder()
-		.setName('Quote')
+		.setName('quote this')
 		.setType(ApplicationCommandType.Message),
-	cooldown: 2,
-	guildOnly: true,
-	permission: 'create',
 
 	async execute(interaction) {
-		const message = interaction.options.getMessage('message');
+		console.log('1');
+		try {
+			console.log('2');
+			const messageId = interaction.targetId;
 
-		if (!message.content) {
+			// Fetch the message using the messageId
+			const message = await interaction.channel.messages.fetch(messageId);
+
+			if (!message.content) {
+				console.log('No message content to quote.');
+				return await interaction.reply({
+					content: 'There is no message to quote!',
+					ephemeral: true,
+				});
+			}
+
+			const guildId = interaction.guildId;
+			const channelId = interaction.channel.id;
+			const creator = `${interaction.user.username}#${interaction.user.discriminator}`;
+			const author = message.author;
+			const content = message.content;
+			const username = `${author.username}#${author.discriminator}`;
+
+			console.log('Quoting message:', content);
+			console.log('Quote saved to database.');
+
+			try {
+				await addQuote(username, content, guildId, channelId, creator);
+				return await interaction.reply('Quote saved!');
+			}
+			catch (error) {
+				console.log('Error occured: ', error);
+				return await interaction.reply('Error saving quote!');
+			}
+		}
+		catch (error) {
+			console.error('An error occurred:', error);
 			return await interaction.reply({
-				content: 'There is no message to quote!',
+				content: 'An error occurred while processing your request.',
 				ephemeral: true,
 			});
 		}
-
-		const author = message.author?.tag;
-		const content = message.content;
-
-		// Save to the db
-
-		return await interaction.reply('Quote saved!');
 	},
 };
