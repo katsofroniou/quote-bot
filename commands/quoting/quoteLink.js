@@ -14,11 +14,14 @@ module.exports = {
 
 	async execute(interaction) {
 		const link = interaction.options.getString('link');
-
 		const splitLink = link.split('/');
 		const guildId = splitLink[4];
 		const channelId = splitLink[5];
 		const messageId = splitLink[6];
+
+		if (guildId !== interaction.guildId) {
+			return interaction.reply('You can only quote messages from this server!');
+		}
 
 		try {
 			// Fetching the message based on the link
@@ -31,8 +34,11 @@ module.exports = {
 			const author = message.author;
 			const username = `${author.username}#${author.discriminator}`;
 
+			// Gets username of who ran command
+			const creator = `${interaction.user.username}#${interaction.user.discriminator}`;
+
 			try {
-				await addQuote(username, content);
+				await addQuote(username, content, guildId, channelId, creator);
 				interaction.reply(`Quote by ${username} added successfully!`);
 			}
 			catch (error) {
