@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const { addQuote } = require('../../database/addQuote');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -20,6 +21,11 @@ module.exports = {
 	async execute(interaction) {
 		const content = interaction.options.getString('text');
 		const author = interaction.options.getString('author');
+		const creator = `${interaction.user.username}#${interaction.user.discriminator}`;
+		const guildId = interaction.guildId;
+		const channelId = interaction.channelId;
+
+		await addQuote(author, content, guildId, channelId, creator);
 
 		interaction.reply(`Content: ${content}    Author: ${author}`);
 		console.log(`Content: ${content}    Author: ${author}`);
