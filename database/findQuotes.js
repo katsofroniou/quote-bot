@@ -14,9 +14,17 @@ async function findQuoteByAuthor(guildId, creator) {
 	}
 }
 
-function findQuoteById(index) {
-	const findId = db.prepare('SELECT * FROM quotes WHERE id = ?;');
-	return findId.get(index);
+async function findQuoteById(guildId, index) {
+	try {
+		const database = dbClient.db(guildId);
+		const quotesColl = database.collection('quotes');
+
+		return await quotesColl.findOne({ _id: index });
+	}
+	catch (error) {
+		console.log('Error finding quote: ', error);
+		return null;
+	}
 }
 
 function findAllQuotes() {
