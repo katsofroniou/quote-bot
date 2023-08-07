@@ -27,8 +27,17 @@ async function findQuoteById(guildId, index) {
 	}
 }
 
-function findAllQuotes() {
-	return db.prepare('SELECT * FROM quotes;').all();
+async function findAllQuotes(guildId) {
+	try {
+		const database = dbClient.db(guildId);
+		const quotesColl = database.collection('quotes');
+
+		return await quotesColl.find().toArray();
+	}
+	catch (error) {
+		console.log('Error finding quotes: ', error);
+		return [];
+	}
 }
 
 module.exports = {
