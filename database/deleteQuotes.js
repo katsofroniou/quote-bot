@@ -1,12 +1,27 @@
-const { db } = require('../bot.js');
+const { dbClient } = require('./dbFunc');
 
-function deleteQuote(index) {
-	const deleteStatement = db.prepare('DELETE FROM quotes WHERE id = ?;');
-	deleteStatement.run(index);
+async function deleteQuote(guildId, index) {
+	try {
+		const database = dbClient.db(guildId);
+		const quotesColl = database.collection('quotes');
+
+		await quotesColl.deleteOne({ _id: index });
+	}
+	catch (error) {
+		console.log('Error deleting quote from database: ', error);
+	}
 }
 
-function deleteAllQuotes() {
-	db.prepare('DELETE FROM quotes;').run();
+async function deleteAllQuotes(guildId) {
+	try {
+		const database = dbClient.db(guildId);
+		const quotesColl = database.collection('quotes');
+
+		await quotesColl.deleteMany({});
+	}
+	catch (error) {
+		console.log('Error deleting all quotes: ', error);
+	}
 }
 
 module.exports = {
