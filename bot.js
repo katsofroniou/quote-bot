@@ -2,7 +2,7 @@
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
-const dbFunc = require('./database/dbFunc')
+const dbFunc = require('./database/dbFunc');
 
 // Config
 // Token
@@ -41,13 +41,11 @@ client.once(Events.ClientReady, c => {
 
 process.on('beforeExit', () => {
 	console.log('Shutting down...');
-	dbClient.close();
+	dbFunc.dbClient.close();
 });
 
 // Creates interaction listener
 client.on(Events.InteractionCreate, async interaction => {
-	if (!interaction.isChatInputCommand()) return;
-
 	// Command interaction used
 	const command = interaction.client.commands.get(interaction.commandName);
 
