@@ -20,7 +20,9 @@ module.exports = {
 		),
 
 	async execute(interaction) {
-		checkPerms(interaction);
+		if (!checkPerms(interaction)) {
+			return interaction.reply('You do not have permission to use this command');
+		}
 
 		const content = interaction.options.getString('text');
 		const author = interaction.options.getString('author');

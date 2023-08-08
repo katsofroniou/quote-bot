@@ -8,7 +8,9 @@ module.exports = {
 		.setType(ApplicationCommandType.Message),
 
 	async execute(interaction) {
-		checkPerms(interaction);
+		if (!checkPerms(interaction)) {
+			return interaction.reply('You do not have permission to use this command');
+		}
 
 		try {
 

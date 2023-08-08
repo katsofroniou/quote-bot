@@ -16,7 +16,9 @@ module.exports = {
 		),
 
 	async execute(interaction) {
-		checkPerms(interaction);
+		if (!checkPerms(interaction)) {
+			return interaction.reply('You do not have permission to use this command');
+		}
 
 		const guildId = interaction.guildId;
 		const quoteToDel = interaction.options.getInteger('quoteid') - 1;
