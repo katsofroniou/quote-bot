@@ -1,4 +1,4 @@
-const { EmbedBuilder, MessageActionRow, MessageButton, Embed } = require('discord.js');
+const { EmbedBuilder, MessageActionRow, MessageButton } = require('discord.js');
 
 const QUOTES_PER_PAGE = 10;
 
