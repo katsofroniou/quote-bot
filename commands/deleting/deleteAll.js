@@ -1,7 +1,8 @@
-const { SlashCommandBuilder, PermissionsBitField, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
+const { SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, PermissionsBitField } = require('discord.js');
 const { deleteAllQuotes } = require('../../database/deleteQuotes');
 
 module.exports = {
+	name: 'deleteall',
 	data: new SlashCommandBuilder()
 		.setName('deleteall')
 		.setDescription('Delete all quotes'),
@@ -10,6 +11,8 @@ module.exports = {
 		if (!interaction.member.permissionsIn(interaction.channel).has(PermissionsBitField.Flags.Administrator)) {
 			return interaction.reply('You do not have permission to use this command');
 		}
+
+		const guildId = interaction.guildId;
 
 		const confirm = new ButtonBuilder()
 			.setCustomId('confirm')
@@ -35,11 +38,20 @@ module.exports = {
 			const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 20000 });
 
 			if (confirmation.customId === 'confirm') {
-				await deleteAllQuotes();
-				await confirmation.update({ content: 'All quotes have been deleted!', components: [] });			}
+				try {
+					await deleteAllQuotes(guildId);
+					await confirmation.update({ content: 'Confirmed deletion', components: [] });
+				}
+				catch (error) {
+					await confirmation.update({ content: 'There was an error deleting the quotes!', components: [] });
+				}
+			}
+			else if (confirmation.customId === 'cancel') {
+				await confirmation.update({ content: 'Cancelled deletion', components: [] });
+			}
 		}
 		catch (error) {
-			await interaction.editReply({ content: 'Confirmation not received, aborting deletion process...', components: [] });
+			await interaction.editReply({ content: 'Confirmation times out. Deletion aborted.', components: [] });
 		}
 	},
 };
