@@ -1,5 +1,5 @@
 // Discord.js
-const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const dbFunc = require('./database/dbFunc');
@@ -34,40 +34,20 @@ for (const folder of commandFolders) {
 	}
 }
 
-// Runs only once when client is ready
-client.once(Events.ClientReady, c => {
-	console.log(`${c.user.tag} is now online!`);
-});
+// Read event files
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
-process.on('beforeExit', () => {
-	console.log('Shutting down...');
-	dbFunc.dbClient.close();
-});
-
-// Creates interaction listener
-client.on(Events.InteractionCreate, async interaction => {
-	// Command interaction used
-	const command = interaction.client.commands.get(interaction.commandName);
-
-	// If the command doesn't exist
-	if (!command) {
-		console.error(`No command matching ${interaction.commandName} was found.`);
+for (const file of eventFiles) {
+	const filePath = path.join(eventsPath, file);
+	const event = require(filePath);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
 	}
-
-	try {
-		// Executes command
-		await command.execute(interaction);
+	else {
+		client.on(event.name, (...args) => event.execute(...args));
 	}
-	catch (error) {
-		console.error(error);
-		if (interaction.replied || interaction.deferred) {
-			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
-		}
-		else {
-			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-		}
-	}
-});
+}
 
 dbFunc.connectDatabase().then(() => {
 	// Log in w/ client token
@@ -75,4 +55,8 @@ dbFunc.connectDatabase().then(() => {
 }).catch((error) => {
 	console.error('Error: ', error);
 	process.exit(1);
+});
+
+process.on('beforeExit', () => {
+	dbFunc.dbClient.close().then(() => console.log('Shutting down...'));
 });
