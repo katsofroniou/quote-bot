@@ -9,11 +9,11 @@ module.exports = {
 		.setDescription('Find all quotes'),
 
 	async execute(interaction) {
-		if (!checkPerms(interaction)) {
-			return interaction.reply('You do not have permission to use this command');
-		}
-
 		try {
+			if (!checkPerms(interaction)) {
+				return interaction.reply('You do not have permission to use this command');
+			}
+
 			const guildId = interaction.guildId;
 			const quotes = await findAllQuotes(guildId);
 
