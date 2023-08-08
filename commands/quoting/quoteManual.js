@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { addQuote } = require('../../database/addQuote');
 const { checkPerms } = require('../../checkPerms');
+const { findAllQuotes } = require('../../database/findQuotes');
+const { oneQuoteSuccess, errorEmbed, permissionErrorEmbed } = require('../../embeds');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -21,7 +23,7 @@ module.exports = {
 
 	async execute(interaction) {
 		if (!checkPerms(interaction)) {
-			return interaction.reply('You do not have permission to use this command');
+			return interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
 		}
 
 		const content = interaction.options.getString('text');
@@ -29,10 +31,18 @@ module.exports = {
 		const creator = `${interaction.user.username}#${interaction.user.discriminator}`;
 		const guildId = interaction.guildId;
 		const channelId = interaction.channelId;
+		const quoteArray = await findAllQuotes(guildId);
+		const count = quoteArray.length;
 
-		await addQuote(author, content, guildId, channelId, creator);
+		try {
+			await addQuote(author, content, guildId, channelId, creator);
 
-		interaction.reply(`Content: ${content}    Author: ${author}`);
-		console.log(`Content: ${content}    Author: ${author}`);
+			const quoteEmbed = oneQuoteSuccess(content, author, count);
+			interaction.reply({ embeds: [quoteEmbed], ephemeral: false });
+		}
+		catch (error) {
+			console.log(error);
+			interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+		}
 	},
 };
