@@ -15,13 +15,11 @@ const emptyMessage = new EmbedBuilder()
 	.setTitle('⚠️ No message to quote!');
 
 function oneQuoteSuccess(content, author, count) {
-	const embed = new EmbedBuilder()
+	return new EmbedBuilder()
 		.setColor('#58b327')
 		.setTitle('✅ Quote Saved')
 		.setDescription(`${content} - ${author}`)
 		.setFooter({ text: `Quote #${count + 1}` });
-
-	return embed;
 }
 
 function multiQuoteSuccess(quoteArray, page) {
