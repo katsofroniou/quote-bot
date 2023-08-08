@@ -1,5 +1,6 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 const { addQuote } = require('../../database/addQuote');
+const { adminOnlyMode } = require('../admin/permissionToggle');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -24,6 +25,10 @@ module.exports = {
 		const creator = `${interaction.user.username}#${interaction.user.discriminator}`;
 		const guildId = interaction.guildId;
 		const channelId = interaction.channelId;
+
+		if (!interaction.member.permissionsIn(interaction.channel).has(PermissionsBitField.Flags.Administrator)) {
+			return interaction.reply('You do not have permission to use this command');
+		}
 
 		await addQuote(author, content, guildId, channelId, creator);
 

@@ -1,5 +1,6 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 const { addQuote } = require('../../database/addQuote.js');
+const { adminOnlyMode } = require('../admin/permissionToggle');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -18,6 +19,10 @@ module.exports = {
 		const guildId = splitLink[4];
 		const channelId = splitLink[5];
 		const messageId = splitLink[6];
+
+		if (!interaction.member.permissionsIn(interaction.channel).has(PermissionsBitField.Flags.Administrator)) {
+			return interaction.reply('You do not have permission to use this command');
+		}
 
 		if (guildId !== interaction.guildId) {
 			return interaction.reply('You can only quote messages from this server!');

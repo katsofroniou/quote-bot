@@ -1,5 +1,6 @@
-const { ContextMenuCommandBuilder, ApplicationCommandType } = require('discord.js');
+const { ContextMenuCommandBuilder, ApplicationCommandType, PermissionsBitField } = require('discord.js');
 const { addQuote } = require('../../database/addQuote');
+const { adminOnlyMode } = require('../admin/permissionToggle');
 
 module.exports = {
 	data: new ContextMenuCommandBuilder()
@@ -14,6 +15,10 @@ module.exports = {
 
 			// Fetch the message using the messageId
 			const message = await interaction.channel.messages.fetch(messageId);
+
+			if (!interaction.member.permissionsIn(interaction.channel).has(PermissionsBitField.Flags.Administrator)) {
+				return interaction.reply('You do not have permission to use this command');
+			}
 
 			if (!message.content) {
 				console.log('No message content to quote.');
