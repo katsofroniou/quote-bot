@@ -1,5 +1,6 @@
-const { SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, PermissionsBitField } = require('discord.js');
+const { SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
 const { deleteAllQuotes } = require('../../database/deleteQuotes');
+const { checkPerms } = require('../../checkPerms');
 
 module.exports = {
 	name: 'deleteall',
@@ -8,9 +9,7 @@ module.exports = {
 		.setDescription('Delete all quotes'),
 
 	async execute(interaction) {
-		if (!interaction.member.permissionsIn(interaction.channel).has(PermissionsBitField.Flags.Administrator)) {
-			return interaction.reply('You do not have permission to use this command');
-		}
+		checkPerms(interaction);
 
 		const guildId = interaction.guildId;
 
