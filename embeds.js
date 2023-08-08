@@ -12,7 +12,11 @@ const errorEmbed = new EmbedBuilder()
 
 const emptyMessage = new EmbedBuilder()
 	.setColor('#FF0000')
-	.setTitle('⚠️ No message to quote!');
+	.setTitle('⚠️ No text to quote!');
+
+const diffServerError = new EmbedBuilder()
+	.setColor('#FF0000')
+	.setTitle('⚠️ You can only quote messages from this server!');
 
 function oneQuoteSuccess(content, author, count) {
 	return new EmbedBuilder()
@@ -55,6 +59,7 @@ function multiQuoteSuccess(quoteArray, page) {
 module.exports = {
 	permissionErrorEmbed,
 	errorEmbed,
+	diffServerError,
 	oneQuoteSuccess,
 	multiQuoteSuccess,
 	emptyMessage,
