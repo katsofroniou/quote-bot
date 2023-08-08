@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 const { addQuote } = require('../../database/addQuote.js');
-const { adminOnlyMode } = require('../admin/permissionToggle');
 
 module.exports = {
 	data: new SlashCommandBuilder()
