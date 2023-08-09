@@ -2,12 +2,12 @@ const { SlashCommandBuilder } = require('discord.js');
 const { addQuote } = require('../../database/addQuote');
 const { checkPerms } = require('../../checkPerms');
 const { findAllQuotes } = require('../../database/findQuotes');
-const { oneQuoteSuccess, errorEmbed, permissionErrorEmbed } = require('../../embeds');
+const { oneQuoteSuccess, permissionErrorEmbed, quoteError } = require('../../embeds');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('quote')
-		.setDescription('Eternalize a message!')
+		.setDescription('Save a message manually!')
 		.addStringOption(option =>
 			option
 				.setName('text')
@@ -28,7 +28,7 @@ module.exports = {
 
 		const content = interaction.options.getString('text');
 		const author = interaction.options.getString('author');
-		const creator = `${interaction.user.username}#${interaction.user.discriminator}`;
+		const creator = interaction.user?.tag;
 		const guildId = interaction.guildId;
 		const channelId = interaction.channelId;
 		const quoteArray = await findAllQuotes(guildId);
@@ -42,7 +42,7 @@ module.exports = {
 		}
 		catch (error) {
 			console.log(error);
-			interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+			interaction.reply({ embeds: [quoteError], ephemeral: true });
 		}
 	},
 };

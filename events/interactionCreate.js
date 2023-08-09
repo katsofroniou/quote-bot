@@ -1,4 +1,5 @@
 const { Events } = require('discord.js');
+const { errorEmbed, noCommandEmbed } = require('../embeds');
 
 module.exports = {
 	name: Events.InteractionCreate,
@@ -9,7 +10,8 @@ module.exports = {
 
 		// If the command doesn't exist
 		if (!command) {
-			console.error(`No command matching ${interaction.commandName} was found.`);
+			await interaction.followUp({ embeds: [noCommandEmbed], ephemeral: true });
+			console.log(`No command matching ${interaction.commandName} was found.`);
 		}
 
 		try {
@@ -18,12 +20,7 @@ module.exports = {
 		}
 		catch (error) {
 			console.error(error);
-			if (interaction.replied || interaction.deferred) {
-				await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
-			}
-			else {
-				await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-			}
+			await interaction.followUp({ embeds: [errorEmbed], ephemeral: true });
 		}
 	},
 };

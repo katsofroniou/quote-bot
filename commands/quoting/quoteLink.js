@@ -1,11 +1,13 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { addQuote } = require('../../database/addQuote.js');
 const { checkPerms } = require('../../checkPerms');
+const { permissionErrorEmbed, diffServerError, oneQuoteSuccess, errorEmbed, emptyMessage, quoteError } = require('../../embeds');
+const { findAllQuotes } = require('../../database/findQuotes');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('quotelink')
-		.setDescription('Eternalise a message')
+		.setDescription('Save a message by link!')
 		.addStringOption(option =>
 			option
 				.setName('link')
@@ -15,7 +17,7 @@ module.exports = {
 
 	async execute(interaction) {
 		if (!checkPerms(interaction)) {
-			return interaction.reply('You do not have permission to use this command');
+			return interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
 		}
 
 		const link = interaction.options.getString('link');
@@ -25,7 +27,7 @@ module.exports = {
 		const messageId = splitLink[6];
 
 		if (guildId !== interaction.guildId) {
-			return interaction.reply('You can only quote messages from this server!');
+			return interaction.reply({ embeds: [diffServerError], ephemeral: true });
 		}
 
 		try {
@@ -36,24 +38,32 @@ module.exports = {
 
 			// Grabs message and username of who sent it
 			const content = message.content;
-			const author = message.author;
-			const username = `${author.username}#${author.discriminator}`;
+			const author = message.author?.tag;
+
+			const count = (await findAllQuotes(guildId)).length;
 
 			// Gets username of who ran command
-			const creator = `${interaction.user.username}#${interaction.user.discriminator}`;
+			const creator = interaction.user?.tag;
+
+			if (content.trim() === '' || message.attachments.size > 0) {
+				return interaction.reply({ embeds: [emptyMessage], ephemeral: true });
+			}
 
 			try {
-				await addQuote(username, content, guildId, channelId, creator);
-				interaction.reply(`Quote by ${username} added successfully!`);
+				await addQuote(author, content, guildId, channelId, creator);
+
+				const successEmbed = oneQuoteSuccess(content, author, count);
+
+				interaction.reply({ embeds: [successEmbed], ephemeral: false });
 			}
 			catch (error) {
-				interaction.reply('Error adding to database...');
+				interaction.reply({ embeds: [quoteError], ephemeral: true });
 				console.error(error.message);
 			}
 		}
 		catch (error) {
 			console.error('Error retrieving the message:', error);
-			interaction.reply('There was an error');
+			interaction.reply({ embeds: [errorEmbed], ephemeral: true });
 		}
 	},
 };

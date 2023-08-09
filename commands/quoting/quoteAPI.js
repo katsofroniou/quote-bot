@@ -1,6 +1,8 @@
 const { ContextMenuCommandBuilder, ApplicationCommandType } = require('discord.js');
 const { addQuote } = require('../../database/addQuote');
 const { checkPerms } = require('../../checkPerms');
+const { permissionErrorEmbed, emptyMessage, errorEmbed, oneQuoteSuccess, quoteError } = require('../../embeds');
+const { findAllQuotes } = require('../../database/findQuotes');
 
 module.exports = {
 	data: new ContextMenuCommandBuilder()
@@ -10,7 +12,7 @@ module.exports = {
 	async execute(interaction) {
 		try {
 			if (!checkPerms(interaction)) {
-				return interaction.reply('You do not have permission to use this command');
+				return interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
 			}
 
 			const messageId = interaction.targetId;
@@ -19,38 +21,32 @@ module.exports = {
 			const message = await interaction.channel.messages.fetch(messageId);
 
 			if (!message.content) {
-				console.log('No message content to quote.');
-				return await interaction.reply({
-					content: 'There is no message to quote!',
-					ephemeral: true,
-				});
+				return await interaction.reply({ embeds: [emptyMessage], ephemeral: true });
 			}
 
 			const guildId = interaction.guildId;
 			const channelId = interaction.channel.id;
-			const creator = `${interaction.user.username}#${interaction.user.discriminator}`;
-			const author = message.author;
+			const creator = interaction.user?.tag;
+			const author = message.author?.tag;
 			const content = message.content;
-			const username = `${author.username}#${author.discriminator}`;
+
+			const count = (await findAllQuotes(guildId)).length;
 
 			console.log('Quoting message:', content);
 			console.log('Quote saved to database.');
 
 			try {
-				await addQuote(username, content, guildId, channelId, creator);
-				return await interaction.reply('Quote saved!');
+				await addQuote(author, content, guildId, channelId, creator);
+				return await interaction.reply({ embeds: [oneQuoteSuccess(content, author, count + 1)], ephemeral: false });
 			}
 			catch (error) {
 				console.log('Error occured: ', error);
-				return await interaction.reply('Error saving quote!');
+				return await interaction.reply({ embeds: [quoteError], ephemeral: true });
 			}
 		}
 		catch (error) {
 			console.error('An error occurred:', error);
-			return await interaction.reply({
-				content: 'An error occurred while processing your request.',
-				ephemeral: true,
-			});
+			return await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
 		}
 	},
 };
