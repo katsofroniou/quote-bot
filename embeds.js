@@ -28,6 +28,10 @@ const noQuoteError = new EmbedBuilder()
 	.setColor('#FF0000')
 	.setTitle('⚠️ There are no saved quotes!');
 
+const notYourList = new EmbedBuilder()
+	.setColor('#FF0000')
+	.setTitle('⚠️ You didn\'t send this command, please use /listall');
+
 function oneQuoteSuccess(content, author, count) {
 	return new EmbedBuilder()
 		.setColor('#58b327')
@@ -42,6 +46,7 @@ module.exports = {
 	diffServerError,
 	noCommandEmbed,
 	quoteError,
+	notYourList,
 	noQuoteError,
 	oneQuoteSuccess,
 	emptyMessage,
