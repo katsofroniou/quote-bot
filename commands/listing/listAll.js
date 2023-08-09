@@ -1,38 +1,32 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, Embed, EmbedBuilder, Colors } = require('discord.js');
 const { checkPerms } = require('../../checkPerms');
 const { findAllQuotes } = require('../../database/findQuotes');
+
 
 module.exports = {
 	name: 'listall',
 	data: new SlashCommandBuilder()
 		.setName('listall')
-		.setDescription('Find all quotes'),
+		.setDescription('List all quotes, don\'t blame me if you\'re scarred'),
 
 	async execute(interaction) {
-		try {
-			if (!checkPerms(interaction)) {
-				return interaction.reply('You do not have permission to use this command');
-			}
-
-			const guildId = interaction.guildId;
-			const quotes = await findAllQuotes(guildId);
-
-			if (quotes.length === 0) {
-				return await interaction.reply('No quotes found.');
-			}
-			else {
-				let formattedQuotes = '';
-
-				for (const quote of quotes) {
-					formattedQuotes += `Quote: ${quote.content}, author: ${quote.author}\n`;
-				}
-
-				return await interaction.reply(`All quotes:\n${formattedQuotes}`);
-			}
+		if (!checkPerms(interaction)) {
+			return interaction.reply('You do not have permission to use this command');
 		}
-		catch (error) {
-			console.log(error);
-			return await interaction.reply('An error occurred: ' + error.message);
-		}
+
+		const guildId = interaction.guildId;
+		const quotesArray = await findAllQuotes(guildId);
+		console.log(quotesArray);
+
+		const quotesList = quotesArray.map(quote => {
+			return `_id: ${quote._id}, author: ${quote.author}, content: ${quote.content}, channel_id: ${quote.channel_id}, creator: ${quote.creator}`;
+		}).join('\n');
+
+		const embed = new EmbedBuilder()
+			.setColor(Colors.Orange)
+			.setTitle('Quotes')
+			.setDescription(`${quotesList}`);
+
+		await interaction.reply({ embeds: [embed], ephemeral: false });
 	},
 };
