@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { checkPerms } = require('../../checkPerms');
 const { findQuoteById, findAllQuotes } = require('../../database/findQuotes');
+const { permissionErrorEmbed, invalidQuoteId, oneQuoteFind, errorEmbed } = require('../../embeds');
 
 
 module.exports = {
@@ -17,7 +18,7 @@ module.exports = {
 
 	async execute(interaction) {
 		if (!checkPerms(interaction)) {
-			return interaction.reply('You do not have permission to use this command');
+			return interaction.reply({ embeds:[permissionErrorEmbed], ephemeral:true });
 		}
 
 		const guildId = interaction.guildId;
@@ -28,15 +29,16 @@ module.exports = {
 
 		try {
 			if (id === 0 || (id > quotesArray.length)) {
-				return await interaction.reply('Invalid quote id, please try again');
+				return await interaction.reply({ embeds: [invalidQuoteId], ephemeral: false });
 			}
 			else {
 				const quote = await findQuoteById(guildId, quoteToFind);
-				await interaction.reply(`${quote.content}, author: ${quote.author} -- quote found`);
+				const count = (await findAllQuotes(guildId)).length;
+				await interaction.reply(oneQuoteFind(quote.content, quote.author, count));
 			}
 		}
 		catch (error) {
-			await interaction.reply('Error occured: ', error);
+			await interaction.reply({ embed: [errorEmbed], ephemeral: true });
 			console.log(error);
 		}
 	},

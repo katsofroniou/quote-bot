@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
 const { deleteAllQuotes } = require('../../database/deleteQuotes');
 const { checkPerms } = require('../../checkPerms');
+const { delConfirmation, delConfirmed, errorEmbed, delCancelled, delTimeOut, permissionErrorEmbed } = require('../../embeds');
 
 module.exports = {
 	name: 'deleteall',
@@ -10,7 +11,7 @@ module.exports = {
 
 	async execute(interaction) {
 		if (!checkPerms(interaction)) {
-			return interaction.reply('You do not have permission to use this command');
+			return interaction.reply({ embeds: [permissionErrorEmbed] });
 		}
 
 		const guildId = interaction.guildId;
@@ -29,7 +30,7 @@ module.exports = {
 			.addComponents(cancel, confirm);
 
 		const response = await interaction.reply({
-			content: 'Are you sure you want to delete all quotes?',
+			embeds: [delConfirmation],
 			components: [row],
 		});
 
@@ -41,18 +42,18 @@ module.exports = {
 			if (confirmation.customId === 'confirm') {
 				try {
 					await deleteAllQuotes(guildId);
-					await confirmation.update({ content: 'Confirmed deletion', components: [] });
+					await confirmation.update({ embeds: [delConfirmed], components: [] });
 				}
 				catch (error) {
-					await confirmation.update({ content: 'There was an error deleting the quotes!', components: [] });
+					await confirmation.update({ embeds: [errorEmbed], components: [] });
 				}
 			}
 			else if (confirmation.customId === 'cancel') {
-				await confirmation.update({ content: 'Cancelled deletion', components: [] });
+				await confirmation.update({ embeds: [delCancelled], components: [] });
 			}
 		}
 		catch (error) {
-			await interaction.editReply({ content: 'Confirmation times out. Deletion aborted.', components: [] });
+			await interaction.editReply({ embeds: [delTimeOut], components: [] });
 		}
 	},
 };

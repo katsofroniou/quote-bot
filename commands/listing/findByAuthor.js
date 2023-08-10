@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { checkPerms } = require('../../checkPerms');
 const { findQuoteByAuthor } = require('../../database/findQuotes');
+const { errorEmbed, quoteAuthorNotFound, allQuotesAuthor, noQuoteError, permissionErrorEmbed } = require('../../embeds');
 
 
 module.exports = {
@@ -17,7 +18,7 @@ module.exports = {
 
 	async execute(interaction) {
 		if (!checkPerms(interaction)) {
-			return interaction.reply('You do not have permission to use this command');
+			return interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
 		}
 
 		const guildId = interaction.guildId;
@@ -27,27 +28,27 @@ module.exports = {
 			const cursor = await findQuoteByAuthor(guildId, authorToFind);
 
 			if (!cursor) {
-				await interaction.reply('An error occurred or no quotes found.');
+				await interaction.reply({ embeds: [noQuoteError], ephemeral: false });
 			}
 			else {
 				const quotes = await cursor.toArray();
 
 				if (quotes.length === 0) {
-					await interaction.reply(`No quotes by ${authorToFind} specified.`);
+					await interaction.reply([quoteAuthorNotFound(authorToFind)]);
 				}
 				else {
 					let formattedQuotes = '';
 
 					for (const quote of quotes) {
-						formattedQuotes += `Quote: ${quote.content}, author: ${quote.author}\n`;
+						formattedQuotes += `"${quote.content}" - ${quote.author}\n`;
 					}
 
-					await interaction.reply(`Quotes by ${authorToFind}:\n${formattedQuotes}`);
+					await interaction.reply({ embeds: [allQuotesAuthor(authorToFind, formattedQuotes)], ephemeral: false });
 				}
 			}
 		}
 		catch (error) {
-			await interaction.reply('An error occurred: ' + error.message);
+			await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
 			console.log(error);
 		}
 	},
