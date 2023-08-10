@@ -1,6 +1,6 @@
 const { dbClient } = require('./dbFunc');
 
-// By author, id, all
+// By author, id, phrase, all
 async function findQuoteByAuthor(guildId, author) {
 	try {
 		const database = dbClient.db(guildId);
@@ -11,6 +11,20 @@ async function findQuoteByAuthor(guildId, author) {
 	}
 	catch (error) {
 		console.log('Error finding quote: ', error);
+		return null;
+	}
+}
+
+async function findQuoteByPhrase(guildId, word) {
+	try {
+		const database = dbClient.db(guildId);
+		const quotesColl = database.collection('quotes');
+
+		const regex = new RegExp(word, 'i');
+		return await quotesColl.find({ content: regex }).toArray();
+	}
+	catch (error) {
+		console.log('Error finding quotes: ', error);
 		return null;
 	}
 }
@@ -43,6 +57,7 @@ async function findAllQuotes(guildId) {
 
 module.exports = {
 	findQuoteByAuthor,
+	findQuoteByPhrase,
 	findQuoteById,
 	findAllQuotes,
 };
