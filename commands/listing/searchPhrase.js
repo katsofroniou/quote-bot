@@ -22,14 +22,11 @@ module.exports = {
 		const quotes = await findQuoteByPhrase(guildId, wordToFind);
 
 		try {
-
-			console.log(quotes);
 			if (quotes.length > 0) {
 				const formattedQuotesList = quotes.map((quote, index) => {
 					return `**${index + 1}**) "${quote.content}" - ${quote.author}`;
 				}).join('\n');
 
-				console.log(quotes);
 				await interaction.reply({ embeds: [multiQuoteFind(wordToFind, formattedQuotesList)] });
 			}
 			else {
