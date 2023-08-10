@@ -3,7 +3,7 @@ const { findAllQuotes } = require('../../database/findQuotes');
 const fs = require('fs');
 const { checkPerms } = require('../../checkPerms');
 const { join } = require('path');
-const { permissionErrorEmbed, exportSuccess } = require('../../embeds');
+const { permissionErrorEmbed, exportSuccess, noQuoteError } = require('../../embeds');
 
 module.exports = {
 	name: 'exportcsv',
@@ -20,7 +20,7 @@ module.exports = {
 		const quotesArray = await findAllQuotes(guildId);
 
 		if (quotesArray.length === 0) {
-			return interaction.reply('There are no quotes to export.');
+			return interaction.reply({ embeds: [noQuoteError], ephemeral: true });
 		}
 
 		const csvData = quotesArray.map(quote => {
