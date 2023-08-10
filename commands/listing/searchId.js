@@ -4,10 +4,10 @@ const { invalidQuoteId, oneQuoteFind, errorEmbed } = require('../../embeds');
 
 
 module.exports = {
-	name: 'findbyid',
+	name: 'searchid',
 	data: new SlashCommandBuilder()
-		.setName('findbyid')
-		.setDescription('Find a quote by id')
+		.setName('searchid')
+		.setDescription('Search for a quote by id')
 		.addIntegerOption(option =>
 			option
 				.setName('quoteid')

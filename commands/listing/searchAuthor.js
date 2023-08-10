@@ -4,20 +4,20 @@ const { errorEmbed, quoteAuthorNotFound, allQuotesAuthor, noQuoteError } = requi
 
 
 module.exports = {
-	name: 'findbyauthor',
+	name: 'searchauthor',
 	data: new SlashCommandBuilder()
-		.setName('findbyauthor')
-		.setDescription('Find a quotes by author')
+		.setName('searchauthor')
+		.setDescription('Search for quotes by a specific author')
 		.addStringOption(option =>
 			option
-				.setName('quoteauthor')
+				.setName('author')
 				.setDescription('What quote do you want to find?')
 				.setRequired(true),
 		),
 
 	async execute(interaction) {
 		const guildId = interaction.guildId;
-		const authorToFind = interaction.options.getString('quoteauthor');
+		const authorToFind = interaction.options.getString('author');
 
 		try {
 			const cursor = await findQuoteByAuthor(guildId, authorToFind);
