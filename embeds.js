@@ -86,7 +86,7 @@ function oneQuoteFind(content, author, count) {
 function oneDelete(quoteid, content, author) {
 	return new EmbedBuilder()
 		.setColor(Colors.Green)
-		.setTitle(`✅ Quote #${quoteid} deleted!`)
+		.setTitle(`✅ Quote #${quoteid + 1} deleted!`)
 		.setDescription(`"${content}" - ${author}`);
 }
 
