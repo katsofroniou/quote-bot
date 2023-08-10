@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { checkPerms } = require('../../checkPerms');
 const { findQuoteByAuthor } = require('../../database/findQuotes');
-const { errorEmbed, quoteAuthorNotFound, allQuotesAuthor, noQuoteError, permissionErrorEmbed } = require('../../embeds');
+const { errorEmbed, quoteAuthorNotFound, allQuotesAuthor, noQuoteError } = require('../../embeds');
 
 
 module.exports = {
@@ -17,10 +16,6 @@ module.exports = {
 		),
 
 	async execute(interaction) {
-		if (!checkPerms(interaction)) {
-			return interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
-		}
-
 		const guildId = interaction.guildId;
 		const authorToFind = interaction.options.getString('quoteauthor');
 

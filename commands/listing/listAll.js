@@ -1,7 +1,6 @@
 const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, Colors } = require('discord.js');
 const { findAllQuotes } = require('../../database/findQuotes');
-const { noQuoteError, errorEmbed, notYourList, permissionErrorEmbed } = require('../../embeds');
-const { checkPerms } = require('../../checkPerms');
+const { noQuoteError, errorEmbed, notYourList } = require('../../embeds');
 
 module.exports = {
 	name: 'listall',
@@ -11,10 +10,6 @@ module.exports = {
 
 	async execute(interaction) {
 		try {
-			if (!checkPerms(interaction)) {
-				return interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
-			}
-
 			const guildId = interaction.guildId;
 			const quotesArray = await findAllQuotes(guildId);
 
