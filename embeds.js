@@ -52,6 +52,12 @@ const invalidQuoteId = new EmbedBuilder()
 	.setColor(Colors.Red)
 	.setTitle('⚠️ Invalid Quote ID');
 
+const exportSuccess = new EmbedBuilder()
+	.setColor(Colors.Green)
+	.setTitle('Exported quotes as CSV')
+	.setDescription('A CSV file with all quotes is attached above!');
+
+
 function oneQuoteSuccess(content, author, count) {
 	return new EmbedBuilder()
 		.setColor(Colors.Green)
@@ -102,6 +108,7 @@ module.exports = {
 	delCancelled,
 	delTimeOut,
 	invalidQuoteId,
+	exportSuccess,
 	oneQuoteSuccess,
 	oneQuoteFind,
 	allQuotesAuthor,
