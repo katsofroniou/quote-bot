@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 const { deleteQuote } = require('../../database/deleteQuotes');
 const { checkPerms } = require('../../checkPerms');
 const { permissionErrorEmbed, oneDelete, errorEmbed } = require('../../embeds');
+const { findQuoteById } = require('../../database/findQuotes');
 
 
 module.exports = {
@@ -23,8 +24,9 @@ module.exports = {
 
 		const guildId = interaction.guildId;
 		const quoteToDel = interaction.options.getInteger('quoteid') - 1;
-		const author = quoteToDel.author;
-		const content = quoteToDel.content;
+		const quoteString = await findQuoteById(guildId, quoteToDel);
+		const author = quoteString.author;
+		const content = quoteString.content;
 
 		try {
 			await deleteQuote(guildId, quoteToDel);
