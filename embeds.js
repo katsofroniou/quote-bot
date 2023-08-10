@@ -57,6 +57,16 @@ const exportSuccess = new EmbedBuilder()
 	.setTitle('Exported quotes as CSV')
 	.setDescription('A CSV file with all quotes is attached above!');
 
+const multiQuoteFind = (wordToFind, formattedQuotesList) => new EmbedBuilder()
+	.setColor(Colors.Green)
+	.setTitle(`:mag_right: Quotes containing "${wordToFind}"`)
+	.setDescription(formattedQuotesList);
+
+function noQuoteWordError(word) {
+	return new EmbedBuilder()
+		.setColor(Colors.Red)
+		.setTitle(`⚠️ No quotes found containing "${word}"`);
+}
 
 function oneQuoteSuccess(content, author, count) {
 	return new EmbedBuilder()
@@ -69,7 +79,7 @@ function oneQuoteSuccess(content, author, count) {
 function oneQuoteFind(content, author, count) {
 	return new EmbedBuilder()
 		.setColor(Colors.Green)
-		.setTitle(`Quote #${count + 1}`)
+		.setTitle(`:mag_right: Quote #${count + 1}`)
 		.setDescription(`"${content}" - ${author}`);
 }
 
@@ -109,6 +119,8 @@ module.exports = {
 	delTimeOut,
 	invalidQuoteId,
 	exportSuccess,
+	multiQuoteFind,
+	noQuoteWordError,
 	oneQuoteSuccess,
 	oneQuoteFind,
 	allQuotesAuthor,
