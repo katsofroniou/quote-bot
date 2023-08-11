@@ -7,10 +7,8 @@ async function addQuote(author, content, guildID, channelId, creator) {
 
 		// Table name
 		const quotesColl = database.collection('quotes');
-		const count = await quotesColl.countDocuments();
 
 		const quote = {
-			_id: count,
 			author: author,
 			content: content,
 			channel_id: channelId,

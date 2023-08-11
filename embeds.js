@@ -73,7 +73,7 @@ function oneQuoteSuccess(content, author, count) {
 		.setColor(Colors.Green)
 		.setTitle('✅ Quote Saved')
 		.setDescription(`"${content}" - ${author}`)
-		.setFooter({ text: `Quote #${count + 1}` });
+		.setFooter({ text: `Quote #${count}` });
 }
 
 function oneQuoteFind(content, author, count) {

@@ -37,7 +37,7 @@ module.exports = {
 		try {
 			await addQuote(author, content, guildId, channelId, creator);
 
-			const quoteEmbed = oneQuoteSuccess(content, author, count);
+			const quoteEmbed = oneQuoteSuccess(content, author, count + 1);
 			return await interaction.reply({ embeds: [quoteEmbed], ephemeral: false });
 		}
 		catch (error) {

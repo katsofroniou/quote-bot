@@ -52,7 +52,7 @@ module.exports = {
 			try {
 				await addQuote(author, content, guildId, channelId, creator);
 
-				const successEmbed = oneQuoteSuccess(content, author, count);
+				const successEmbed = oneQuoteSuccess(content, author, count + 1);
 
 				return await interaction.reply({ embeds: [successEmbed], ephemeral: false });
 			}
