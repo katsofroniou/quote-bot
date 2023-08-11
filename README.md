@@ -8,8 +8,8 @@
 [![Commits Badge](https://img.shields.io/github/commit-activity/m/katsofroniou/quote-bot?color=d2afff)](https://github.com/katsofroniou/quote-bot/graphs/commit-activity)
 
 ## Bot Commands
-| Command       | Inputs          | Usage                                                           |
-|---------------|-----------------|-----------------------------------------------------------------|
+| Slash Command   | Inputs          | Usage                                                           |
+|-----------------|-----------------|-----------------------------------------------------------------|
 | `/quote`        | content, author | Saves a quote manually using user input                         |
 | `/quotelink`    | message link    | Saves a quote using a link provided                             |
 | `/deleteone`    | id              | Deletes a single quote                                          |
@@ -19,6 +19,8 @@
 | `/searchphrase` | phrase          | Searches for and returns a set of quotes with a specific phrase |
 | `/listall`      |                 | Lists all of the server quotes                                  |
 | `/exportcsv`    |                 | Exports all server quotes as a csv file                         |
+
+There is also a context menu command. Right click the message you want to quote, go to apps, and press 'quote this'
 
 ---
 
