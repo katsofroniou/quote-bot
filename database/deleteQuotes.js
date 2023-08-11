@@ -1,11 +1,16 @@
 const { dbClient } = require('./dbFunc');
+const { findAllQuotes } = require('./findQuotes');
 
 async function deleteQuote(guildId, index) {
 	try {
+		const quotesArray = await findAllQuotes(guildId);
+
 		const database = dbClient.db(guildId);
 		const quotesColl = database.collection('quotes');
 
-		await quotesColl.deleteOne({ _id: index });
+		const quoteToDelete = quotesArray[index];
+
+		await quotesColl.deleteOne({ _id: quoteToDelete._id });
 	}
 	catch (error) {
 		console.log('Error deleting quote from database: ', error);
