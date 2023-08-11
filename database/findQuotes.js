@@ -34,7 +34,10 @@ async function findQuoteById(guildId, index) {
 		const database = dbClient.db(guildId);
 		const quotesColl = database.collection('quotes');
 
-		return await quotesColl.findOne({ _id: index });
+		const quotesArray = await findAllQuotes(guildId);
+		const quoteToFind = quotesArray[index];
+
+		return await quotesColl.findOne({ _id: quoteToFind._id });
 	}
 	catch (error) {
 		console.log('Error finding quote: ', error);

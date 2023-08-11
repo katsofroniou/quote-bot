@@ -17,7 +17,7 @@ module.exports = {
 
 	async execute(interaction) {
 		if (!checkPerms(interaction)) {
-			return interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+			return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
 		}
 
 		const link = interaction.options.getString('link');
@@ -27,7 +27,7 @@ module.exports = {
 		const messageId = splitLink[6];
 
 		if (guildId !== interaction.guildId) {
-			return interaction.reply({ embeds: [diffServerError], ephemeral: true });
+			return await interaction.reply({ embeds: [diffServerError], ephemeral: true });
 		}
 
 		try {
@@ -52,18 +52,18 @@ module.exports = {
 			try {
 				await addQuote(author, content, guildId, channelId, creator);
 
-				const successEmbed = oneQuoteSuccess(content, author, count);
+				const successEmbed = oneQuoteSuccess(content, author, count + 1);
 
-				interaction.reply({ embeds: [successEmbed], ephemeral: false });
+				return await interaction.reply({ embeds: [successEmbed], ephemeral: false });
 			}
 			catch (error) {
-				interaction.reply({ embeds: [quoteError], ephemeral: true });
 				console.error(error.message);
+				return await interaction.reply({ embeds: [quoteError], ephemeral: true });
 			}
 		}
 		catch (error) {
 			console.error('Error retrieving the message:', error);
-			interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+			return await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
 		}
 	},
 };

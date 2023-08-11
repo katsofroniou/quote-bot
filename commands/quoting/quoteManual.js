@@ -23,7 +23,7 @@ module.exports = {
 
 	async execute(interaction) {
 		if (!checkPerms(interaction)) {
-			return interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+			return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
 		}
 
 		const content = interaction.options.getString('text');
@@ -37,12 +37,12 @@ module.exports = {
 		try {
 			await addQuote(author, content, guildId, channelId, creator);
 
-			const quoteEmbed = oneQuoteSuccess(content, author, count);
-			interaction.reply({ embeds: [quoteEmbed], ephemeral: false });
+			const quoteEmbed = oneQuoteSuccess(content, author, count + 1);
+			return await interaction.reply({ embeds: [quoteEmbed], ephemeral: false });
 		}
 		catch (error) {
 			console.log(error);
-			interaction.reply({ embeds: [quoteError], ephemeral: true });
+			return await interaction.reply({ embeds: [quoteError], ephemeral: true });
 		}
 	},
 };

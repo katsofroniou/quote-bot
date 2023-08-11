@@ -32,9 +32,6 @@ module.exports = {
 
 			const count = (await findAllQuotes(guildId)).length;
 
-			console.log('Quoting message:', content);
-			console.log('Quote saved to database.');
-
 			try {
 				await addQuote(author, content, guildId, channelId, creator);
 				return await interaction.reply({ embeds: [oneQuoteSuccess(content, author, count + 1)], ephemeral: false });
