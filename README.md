@@ -83,19 +83,16 @@ This project is licensed under the Apache License 2.0. For the full terms and co
 
 ---
 
-**Apache License 2.0**
-Version 2.0, January 2004
-[http://www.apache.org/licenses/](http://www.apache.org/licenses/)
-
-This license allows you to:
-
-- Reproduce, modify, and distribute the work and its derivative works.
-- Use any patent claims licensable by contributors, subject to certain conditions.
-- Distribute copies of the work or derivative works, provided you meet certain requirements.
-
-For a concise overview of the license terms, see below:
-
-- **Copyright License**: Each contributor grants you a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license to reproduce, prepare derivative works of, publicly display, publicly perform, sublicense, and distribute the work and such derivative works.
-- **Patent License**: Each contributor grants you a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable patent license to make, have made, use, offer to sell, sell, import, and otherwise transfer the work, where such license applies only to those patent claims licensable by such contributor that are necessarily infringed by their contribution(s) alone or by combination of their contribution(s) with the work.
-- **Redistribution**: You may reproduce and distribute copies of the work or derivative works thereof in any medium, with or without modifications, and in source or object form, provided that you meet certain conditions.
-- **Submission of Contributions**: Any contribution intentionally submitted for inclusion in the work by you to the licensor shall be under the terms and conditions of this license, without any additional terms or conditions.
+```   Copyright [yyyy] [name of copyright owner] 
+  
+    Licensed under the Apache License, Version 2.0 (the "License"); 
+    you may not use this file except in compliance with the License. 
+    You may obtain a copy of the License at 
+  
+        http://www.apache.org/licenses/LICENSE-2.0 
+  
+    Unless required by applicable law or agreed to in writing, software 
+    distributed under the License is distributed on an "AS IS" BASIS, 
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+    See the License for the specific language governing permissions and 
+    limitations under the License.```
