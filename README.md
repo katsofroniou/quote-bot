@@ -1,6 +1,4 @@
-<div style="float: right; margin-left: 20px;">
-  <img style="border-radius: 50%;" height="150" src="QuoteBot.png" alt="QuoteBot Image">
-</div>
+<img align="right" height="150" src="QuoteBot.png" alt="QuoteBot Image">
 
 # Quote Bot
 
@@ -8,8 +6,6 @@
 [![license](https://img.shields.io/github/license/katsofroniou/quote-bot?color=d2afff)](https://github.com/katsofroniou/quote-bot/blob/main/LICENSE)
 [![issues](https://img.shields.io/github/issues/katsofroniou/quote-bot?color=pink)](https://github.com/katsofroniou/quote-bot/issues)
 [![Commits Badge](https://img.shields.io/github/commit-activity/m/katsofroniou/quote-bot?color=d2afff)](https://github.com/katsofroniou/quote-bot/graphs/commit-activity)
-
----
 
 ## Bot Commands
 | Command       | Inputs          | Usage                                                           |
@@ -34,7 +30,17 @@
 
 ---
 
-## Contributing
+## Contributors
+- [Katerina Sofroniou](https://github.com/katsofroniou)
+- [Leo Durrant](https://github.com/zanyleonic)
+
+## How to Contribute
+
+## Disclaimer
+
+This tutorial is specifically for contributing to the Quote Bot project and not for self-deployment of the bot. 
+Hosting the bot yourself is not supported.
+
 While I'm the sole maintainer of this Quote Bot, if you want to suggest any changes or improvements, here's how: 
 
 ### Step 1: Fork the Repository
@@ -68,17 +74,6 @@ While I'm the sole maintainer of this Quote Bot, if you want to suggest any chan
 4. Click "Create pull request".
 
 I'll review your pull request and provide feedback if necessary.
-
-### Contributors
-- [Katerina Sofroniou](https://github.com/katsofroniou)
-- [Leo Durrant](https://github.com/zanyleonic)
-
----
-
-## Disclaimer
-
-This tutorial is specifically for contributing to the Quote Bot project and not for self-deployment of the bot. 
-Hosting the bot yourself is not supported
 
 ---
 
