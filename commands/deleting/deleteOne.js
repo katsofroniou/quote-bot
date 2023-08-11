@@ -30,7 +30,7 @@ module.exports = {
 
 		try {
 			await deleteQuote(guildId, quoteToDel);
-			await interaction.reply({ embeds: [oneDelete(quoteToDel, author, content)], ephemeral: false });
+			await interaction.reply({ embeds: [oneDelete(quoteToDel, content, author)], ephemeral: false });
 		}
 		catch (error) {
 			await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
