@@ -2,7 +2,6 @@ const { SlashCommandBuilder } = require('discord.js');
 const { findQuoteByAuthor } = require('../../database/findQuotes');
 const { errorEmbed, quoteAuthorNotFound, allQuotesAuthor, noQuoteError } = require('../../embeds');
 
-
 module.exports = {
 	name: 'searchauthor',
 	data: new SlashCommandBuilder()
@@ -16,10 +15,10 @@ module.exports = {
 		),
 
 	async execute(interaction) {
-		const guildId = interaction.guildId;
-		const authorToFind = interaction.options.getString('author');
-
 		try {
+			const guildId = interaction.guildId;
+			const authorToFind = interaction.options.getString('author');
+
 			const cursor = await findQuoteByAuthor(guildId, authorToFind);
 
 			if (!cursor) {
@@ -29,7 +28,7 @@ module.exports = {
 				const quotes = await cursor.toArray();
 
 				if (quotes.length === 0) {
-					await interaction.reply([quoteAuthorNotFound(authorToFind)]);
+					await interaction.reply({ embeds: [quoteAuthorNotFound(authorToFind)], ephemeral: false });
 				}
 				else {
 					let formattedQuotes = '';
@@ -43,8 +42,8 @@ module.exports = {
 			}
 		}
 		catch (error) {
+			console.error('\nError:', error);
 			await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
-			console.log(error);
 		}
 	},
 };
