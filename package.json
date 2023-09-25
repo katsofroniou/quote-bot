@@ -1,6 +1,6 @@
 {
   "name": "quote-bot",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A discord bot for handling quotes on the RHUL Anime & Manga Society Discord",
   "main": "bot.js",
   "scripts": {
