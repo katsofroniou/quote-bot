@@ -18,6 +18,7 @@
 | `/searchid`     | id              | Searches for and returns a quote with specified id              |
 | `/searchphrase` | phrase          | Searches for and returns a set of quotes with a specific phrase |
 | `/listall`      |                 | Lists all of the server quotes                                  |
+| `/inspire`      |                 | Displays an inspirational image with a quote                    |
 | `/exportcsv`    |                 | Exports all server quotes as a csv file                         |
 
 There is also a context menu command. Right click the message you want to quote, go to apps, and press 'quote this'
