@@ -50,7 +50,7 @@ module.exports = {
 			}
 
 			try {
-				await addQuote(author, content, guildId, channelId, creator);
+				await addQuote(author, content, guildId, creator, link);
 
 				const successEmbed = oneQuoteSuccess(content, author, count + 1);
 
@@ -58,6 +58,7 @@ module.exports = {
 			}
 			catch (error) {
 				console.error(error.message);
+				console.log('eh?')
 				return await interaction.reply({ embeds: [quoteError], ephemeral: true });
 			}
 		}

@@ -24,12 +24,12 @@ module.exports = {
 		}
 
 		const csvData = quotesArray.map(quote => {
-			return `${quote._id},"${quote.content}","${quote.author}","${quote.channel_id}","${quote.creator}"`;
+			return `${quote._id},"${quote.content}","${quote.author}","${quote.creator}", "${quote.link}"`;
 		}).join('\n');
 
 		const csvFilePath = join(__dirname, 'quotes.csv');
 
-		fs.writeFileSync(csvFilePath, 'ID,Content,Author,Channel ID,Creator\n' + csvData);
+		fs.writeFileSync(csvFilePath, 'ID,Content,Author,Creator, Link\n' + csvData);
 
 		await interaction.reply({ embeds: [exportSuccess], files: [csvFilePath], ephemeral: true });
 

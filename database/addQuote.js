@@ -1,6 +1,6 @@
 const { dbClient } = require('../database/dbFunc');
 
-async function addQuote(author, content, guildID, channelId, creator) {
+async function addQuote(author, content, guildID, creator, link) {
 	try {
 		// Database name
 		const database = dbClient.db(guildID);
@@ -11,8 +11,8 @@ async function addQuote(author, content, guildID, channelId, creator) {
 		const quote = {
 			author: author,
 			content: content,
-			channel_id: channelId,
 			creator: creator,
+			link: link,
 		};
 
 		await quotesColl.insertOne(quote);
