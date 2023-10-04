@@ -33,9 +33,10 @@ module.exports = {
 		const channelId = interaction.channelId;
 		const quoteArray = await findAllQuotes(guildId);
 		const count = quoteArray.length;
+		const link = null;
 
 		try {
-			await addQuote(author, content, guildId, channelId, creator);
+			await addQuote(author, content, guildId, creator, link);
 
 			const quoteEmbed = oneQuoteSuccess(content, author, count + 1);
 			return await interaction.reply({ embeds: [quoteEmbed], ephemeral: false });

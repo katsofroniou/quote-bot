@@ -29,11 +29,12 @@ module.exports = {
 			const creator = interaction.user?.tag;
 			const author = message.author?.tag;
 			const content = message.content;
+			const link = `https://discord.com/channels/${guildId}/${channelId}/${messageId}`
 
 			const count = (await findAllQuotes(guildId)).length;
 
 			try {
-				await addQuote(author, content, guildId, channelId, creator);
+				await addQuote(author, content, guildId, creator, link);
 				return await interaction.reply({ embeds: [oneQuoteSuccess(content, author, count + 1)], ephemeral: false });
 			}
 			catch (error) {

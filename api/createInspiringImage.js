@@ -10,38 +10,39 @@ async function createInspiringImage(quote, author, imageUrl) {
     const quoteFontSize = 30;
     ctx.font = `${quoteFontSize}px Arial`;
     ctx.fillStyle = 'white';
-    ctx.textAlign = 'center';
 
-    const maxTextWidth = canvas.width - 40;
+    const maxTextWidth = canvas.width - 20;
 
     const words = quote.split(' ');
-    let line = '';
+    let currentLine = '';
     const lines = [];
+
     for (const word of words) {
-        const testLine = line + word + ' ';
+        const testLine = currentLine + word + ' ';
         const { width } = ctx.measureText(testLine);
+
         if (width < maxTextWidth) {
-            line = testLine;
+            currentLine = testLine;
         } else {
-            lines.push(line);
-            line = `${word} `;
+            lines.push(currentLine);
+            currentLine = `${word} `;
         }
     }
-    lines.push(line);
+    lines.push(currentLine);
 
-    const quoteX = canvas.width / 2;
-    let quoteY = 30;
+    let textY = 30;
 
-    // Draw each line of the quote
     for (const line of lines) {
-        ctx.fillText(line, quoteX, quoteY);
-        quoteY += quoteFontSize + 10;
+        const lineWidth = ctx.measureText(line).width;
+        const textX = (canvas.width - lineWidth) / 2;
+        ctx.fillText(line, textX, textY);
+        textY += quoteFontSize + 10;
     }
 
     const authorFontSize = 20;
     ctx.font = `${authorFontSize}px Arial`;
 
-    const authorX = 50;
+    const authorX = 10;
     const authorY = canvas.height - 20;
 
     ctx.fillText(`- ${author}`, authorX, authorY);

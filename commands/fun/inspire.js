@@ -1,8 +1,8 @@
 const { SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
 const { findAllQuotes } = require("../../database/findQuotes");
 const { noQuoteError } = require("../../embeds");
-const { getRandomImage } = require("./getRandomImage");
-const { createInspiringImage } = require("./createInspiringImage");
+const { getRandomImage } = require("../../api/getRandomImage");
+const { createInspiringImage } = require("../../api/createInspiringImage");
 require('dotenv').config();
 
 module.exports = {
