@@ -35,7 +35,19 @@ async function createInspiringImage(quote, author, imageUrl) {
     for (const line of lines) {
         const lineWidth = ctx.measureText(line).width;
         const textX = (canvas.width - lineWidth) / 2;
+
+        const borderWidth = 3;
+
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = borderWidth;
+
+        ctx.strokeText(line, textX, textY);
+
+        ctx.strokeStyle = 'transparent';
+        ctx.lineWidth = 0;
+
         ctx.fillText(line, textX, textY);
+
         textY += quoteFontSize + 10;
     }
 
@@ -44,6 +56,16 @@ async function createInspiringImage(quote, author, imageUrl) {
 
     const authorX = 10;
     const authorY = canvas.height - 20;
+
+    const authorBorderWidth = 2;
+
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = authorBorderWidth;
+
+    ctx.strokeText(`- ${author}`, authorX, authorY);
+
+    ctx.strokeStyle = 'transparent';
+    ctx.lineWidth = 0;
 
     ctx.fillText(`- ${author}`, authorX, authorY);
 
