@@ -30,12 +30,11 @@ module.exports = {
 				if (quotes.length === 0) {
 					await interaction.reply({ embeds: [quoteAuthorNotFound(authorToFind)], ephemeral: false });
 				}
-				else {
-					let formattedQuotes = '';
-
-					for (const quote of quotes) {
-						formattedQuotes += `"${quote.content}" - ${quote.author}\n`;
-					}
+				else { 
+        const formattedQuotesList = currentQuotes.map((quote, index) => {
+            const displayIndex = startIndex + index + 1;
+            return `**${displayIndex}**) "${quote.content}" - ${quote.author}`;
+        }).join('\n');
 
 					await interaction.reply({ embeds: [allQuotesAuthor(authorToFind, formattedQuotes)], ephemeral: false });
 				}
